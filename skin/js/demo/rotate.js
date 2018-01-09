@@ -97,7 +97,7 @@
             // 帧循环、游戏循环
             function animation()
             {
-               // mesh.rotation.y +=0.01;
+                mesh.rotation.x +=0.01;
                 renderer.render(scene, camera);
                 requestAnimationFrame(animation);
 
