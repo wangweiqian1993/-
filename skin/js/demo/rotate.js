@@ -1,110 +1,92 @@
- /*
-            * 围绕某个 x,y,z轴测试
-            */
-            
-            
-            var renderer;
-            var stats;
+/*高度*/
+var height;
+/*宽度*/
+var width;
+/*场景*/
+var scene;
+/*相机*/
+var camera;
+/*渲染器*/
+var renderer;
+/*立方体*/
+var cube;
+/*控制*/
+var controls;
+/*初始化光源*/
+var light;
+//初始化Three.js
+function ReadyWebGL() {
+	/*初始化场景的方法*/
+	initSence();
+	/*初始化模型*/
+	initOject();
+	/*初始化光线的方法*/
+	initLight();
+	/*初始化相机的方法*/
+	initCamera();
+	/*初始化渲染器的方法*/
+	initThree();
+	
+}
 
-            function initThree() {
-                width = document.getElementById('canvas-frame').clientWidth;
-                height = document.getElementById('canvas-frame').clientHeight;
-                renderer = new THREE.WebGLRenderer({
-                    antialias : true
-                });
-                renderer.setSize(width, height);
-                document.getElementById('canvas-frame').appendChild(renderer.domElement);
-                renderer.setClearColor(0xFFFFFF, 1.0);
+	
+	
+/*初始化场景*/
+function initSence() {
+	scene = new THREE.Scene()
+}
+/*初始化模型*/
+function initOject() {
+	model_1();
+	model_2();
+}
+/*初始化光源*/
+function initLight() {
+	light = new THREE.PointLight(0xFF0000, 1);
+	light.position.set(300, 400, 200);
+	scene.add(light);
+	scene.add(new THREE.AmbientLight(0x333333));
+}
+/*初始化相机*/
+function initCamera() {
+	camera = new THREE.PerspectiveCamera(45, 800 / 600, 1, 1000);
+	camera.position.set(0, 200, 600);
+	camera.lookAt(scene.position);
+	controls = new THREE.OrbitControls(camera);
+	
+		
+}
+/*初始化渲染器*/
+function initThree() {
+	renderer = new THREE.WebGLRenderer({ antialias:true});
+	renderer.setSize(800, 600);
+	document.body.appendChild(renderer.domElement);
+	renderer.render(scene, camera);
+	controls.addEventListener('change', render);
+}
+/*模型一*/
+function model_1(){
+	var geometry = new THREE.BoxGeometry(40, 40, 40);
+	var material = new THREE.MeshLambertMaterial({
+		color: 0xff0000
+	});
+	mesh = new THREE.Mesh(geometry, material);
+	mesh.position.set(-40,0,0);
+	scene.add(mesh);
+	
+}
+/*模型一*/
+function model_2(){
+	var geometry = new THREE.BoxGeometry(40, 40, 40);
+	var material = new THREE.MeshLambertMaterial({
+		color: 0xff0000
+	});
+	mesh = new THREE.Mesh(geometry, material);
+	mesh.position.set(40,0,0);
+	scene.add(mesh);
+	
+}
 
-                stats = new Stats();
-                stats.domElement.style.position = 'absolute';
-                stats.domElement.style.left = '0px';
-                stats.domElement.style.top = '0px';
-                document.getElementById('canvas-frame').appendChild(stats.domElement);
-            }
-
-            var camera;
-            function initCamera() {
-                camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
-                camera.position.x = 100;
-                camera.position.y = 300;
-                camera.position.z = 600;
-                camera.up.x = 0;
-                camera.up.y = 1;
-                camera.up.z = 0;
-                camera.lookAt({
-                    x : 0,
-                    y : 0,
-                    z : 0
-                });
-            }
-
-            var scene;
-            function initScene() {
-                scene = new THREE.Scene();
-            }
-
-            var light;
-            function initLight() {
-                light = new THREE.AmbientLight(0xFF0000);
-                light.position.set(100, 100, 200);
-                scene.add(light);
-
-            }
-
-            var cube;
-            var mesh;
-            function initObject() {
-               
-                var geometry = new THREE.BoxGeometry( 100, 100, 100 );
-                
-                for ( var i = 0; i < geometry.faces.length; i += 2 ) {
-
-                    var hex = Math.random() * 0xffffff;
-                    geometry.faces[ i ].color.setHex( hex );
-                    geometry.faces[ i + 1 ].color.setHex( hex );
-
-                }
-                
-                var material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors} );
-                mesh = new THREE.Mesh( geometry,material);
-                mesh.position = new THREE.Vector3(0,0,0);
-                scene.add(mesh);
-                
-                
-            }
-            
-            function initGrid(){
-                var helper = new THREE.GridHelper( 1000, 50 );
-                helper.setColors( 0x0000ff, 0x808080 );
-                scene.add( helper );
-            }
-            
-            function threeStart() {
-                initThree();
-                initCamera();
-                initScene();
-                initLight();
-
-
-                initObject();
-                initGrid();
-                
-                animation();
-
-            }
-
-            // 帧循环、游戏循环
-            function animation()
-            {
-                mesh.rotation.x +=0.01;
-                renderer.render(scene, camera);
-                requestAnimationFrame(animation);
-
-            }
-            var controls = new THREE.OrbitControls(camera);
-            controls.addListener('change',render);
-            function render() {
-                renderer.render(scene, camera);
-            }
-
+function render() {
+	renderer.render(scene,camera);
+}

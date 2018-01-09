@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-	<head>
-		<!-- 移动相机的位置-->
-		<meta charset="UTF-8">
-		<title>WebGL中文网</title>
-		<script src="../skin/js/Three/three.js"></script>
-		        <script src="../skin/js/Three/Stats.js"></script>
-		<script src="../skin/js/Three/OrbitControls.js"></script>
-		<!--<link rel="stylesheet" href="../skin/css/style.css" type="text/css"/>-->
-		<script src="../skin/js/demo/rotate.js"></script>
-				
-	</head>
-
-	<body onload="ReadyWebGL()">
-		<script>
-			/*var scene = new THREE.Scene();
+var scene = new THREE.Scene();
 			var geometry = new THREE.BoxGeometry(100, 100, 100);
 			var material = new THREE.MeshLambertMaterial({
 				color: 0xff0000
@@ -38,10 +21,4 @@
 				
 			}
 			var controls = new THREE.OrbitControls(camera);
-			controls.addEventListener('change',render);*/
-		</script>
-		
-		<div id="web_box1">
-			
-		</div>
-	</body>
+			controls.addEventListener('change',render)
